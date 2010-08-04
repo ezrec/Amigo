@@ -1,0 +1,11 @@
+Datasheets/
+INCA_libs/
+fpga core/
+*.vcd
+*.elf
+*.bin
+irun.key
+irun.log
+tags
+*.sim
+*.sav
