@@ -36,8 +36,8 @@ module A1000 (
 	output _C3,
 	output CDAC,
 	output _C1,
-	input	_OVR,
-	input	RDY,
+	inout	_OVR,
+	inout	XRDY,
 	input	_INT2,
 	output	_PALOPE,
 	output	[23:1] A,
@@ -47,7 +47,7 @@ module A1000 (
 	input	_EINT5,
 	input	_EINT4,
 	input	_BERR,
-	input	_VPA,	// DO NOT USE
+	inout	_VPA,	// DO NOT USE
 	output	E,
 	output	_VMA,	// DO NOT USE
 	inout	_RST,
@@ -157,15 +157,15 @@ pullup (weak1) (_RST);
 pullup (weak1) (_HLT);
 
 // Motorola CPU
-
+wire _INT3;
 wire [2:0] _IPL;
+wire [2:0] _FC;
+wire R_W;
 
 pullup (weak1) (_IPL[0]);
 pullup (weak1) (_IPL[1]);
 pullup (weak1) (_IPL[2]);
-pullup (weak1) (_DTACK);
-wire [2:0] _FC;
-wire R_W;
+pullup (weak1) (_VPA);	// Can be driven internally or by Zorro
 
 Motorola_68000 U6U (
 	.VCC(VCC_5V),
@@ -214,6 +214,9 @@ wire XRDY;
 
 wire _PALOPE;
 wire PAL_ROME;
+
+pullup (weak1) (XRDY);
+pullup (weak1) (_OVR);
 
 Amiga_PALCAS U5M (
 	._ARW(_ARW),	/* Angus RW */
