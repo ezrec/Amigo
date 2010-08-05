@@ -47,7 +47,7 @@ assign Ib = (I0b && !S) || (I1b && S);
 bufif0(Zb, Ib, _OE);
 
 wire Ic;
-assign Ia = (I0c && !S) || (I1c && S);
+assign Ic = (I0c && !S) || (I1c && S);
 bufif0(Zc, Ic, _OE);
 
 wire Id;
