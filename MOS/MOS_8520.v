@@ -36,4 +36,6 @@ module MOS_8520 (
 	input	_RES
 );
 
+bufif1(PA[0], 1'b0, 1'b1);
+
 endmodule

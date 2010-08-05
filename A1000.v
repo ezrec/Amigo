@@ -189,6 +189,7 @@ Motorola_68000 U6U (
 
 // CIA peripherials
 MOS_8520 U6T (
+	.PA({OVL}),
 	._RES(_RST)
 );
 
