@@ -20,29 +20,29 @@
  */
 
 module Amiga_PALEN (
-	input	A23,
-	input	A22,
-	input	A21,
-	input	_AS,
-	input	_DBR,
-	input	OVL,
-	input	_OVR,
-	input	XRDY,
-	input	_C3,
-	input	GND,
-	input	_C1,
-	input	_VPA,
-	output	_ROME,
-	output	_DAE,
-	output	_RGAE,
-	output	_RE,
-	output	_DTACK,
-	output	_BLS,
+	input	A23,	// Pin 1
+	input	A22,	// Pin 2
+	input	A21,	// Pin 3
+	input	_AS,	// Pin 4
+	input	_DBR,	// Pin 5
+	input	OVL,	// Pin 6
+	input	_OVR,	// Pin 7
+	input	XRDY,	// Pin 8
+	input	_C3,	// Pin 9
+	input	GND,	// Pin 10
+	input	_C1,	// Pin 11
+	output	_VPA,	// Pin 12
+	output	_ROME,	// Pin 13
+	output	_DAE,	// Pin 14
+	output	_RGAE,	// Pin 15
+	output	_RE,	// Pin 16
+	output	_DTACK,	// Pin 17
+	output	_BLS,	// Pin 18
 	input	VCC
 );
 
-wire VPA;
-assign VPA = !_VPA;
+reg VPA;
+assign _VPA = !VPA;
 
 wire AS;
 assign AS = !_AS;
@@ -56,16 +56,16 @@ assign _A22 = !A22;
 wire _A21;
 assign _A21 = !A21;
 
-wire ROME;
+reg  ROME;
 assign _ROME = !ROME;
 
-wire RE;
+reg  RE;
 assign _RE = !RE;
 
-wire DAE;
+reg  DAE;
 assign _DAE = !DAE;
 
-wire BLS;
+reg  BLS;
 assign _BLS = !BLS;
 
 wire _OVL;
@@ -79,26 +79,34 @@ wire C3;
 assign C1 = !_C1;
 assign C3 = !_C3;
 
-wire DTACK;
+reg DTACK;
 assign _DTACK = !DTACK;
 
-wire RGAE;
+reg RGAE;
 assign _RGAE = !RGAE;
 
 // IF (/OVR) VPA = AS*A23*/A22*A21
-bufif1(VPA, AS && A23 && _A22 && A21, _OVR);
+initial VPA = 1'b0;
+always @(*)
+	if (_OVR == 1)
+		#10 VPA <= AS && A23 && _A22 && A21;
 
 // ROME        = AS*/DTACK*A23*A22*A21*/OVR*C1*/C3+
 //                 AS*/DTACK*/A23*/A22*/A21*/OVR*OVL*C1*/C3+
 //                 ROME*C1+
 //                 ROME*C3
-assign ROME = (AS && _DTACK && A23 && A22 && A21 && _OVR && C1 && _C3) ||
+initial ROME = 1'b0;
+always @(*)
+	#10 ROME  <= (AS && _DTACK && A23 && A22 && A21 && _OVR && C1 && _C3) ||
 	      (AS && _DTACK && _A23 && _A22 && _A21 && _OVR && C1 && _C3) ||
 	      (ROME && C1) || (ROME && C3);
 
+
 //RE            = /DBR*AS*/DTACK*/A23*/A22*/A21*/OVL*C1*/C3*/OVR+
 //                RE*C1+RE*C3
-assign RE = (_DBR && AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
+initial RE = 1'b0;
+always @(*)
+	#10 RE  <= (_DBR && AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
 	    (RE && C1) || (RE && C3);
 
 // IF (/OVR) DTACK = AS*/A23*/A22*A21*XRDY+
@@ -106,28 +114,36 @@ assign RE = (_DBR && AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 &
 //                   AS*A23*/A22*/A21*XRDY+
 //                   ROME*XRDY*C3+
 //                   RE*C3+RGAE*C3+DTACK*AS*XRDY
-bufif1(DTACK, (AS && _A23 && _A22 && A21 && XRDY) ||
-	      (AS && _A23 && A22 && XRDY) ||
-	      (AS && A23 && _A22 && _A21 && XRDY) ||
-	      (ROME && XRDY && C3) ||
-      	      (RE && C3) || (RGAE && C3) ||
-      	      (DTACK && AS && XRDY),
-       _OVR);
+initial DTACK = 1'b0;
+always @(*)
+	if (_OVR == 1)
+		#10 DTACK <= (AS && _A23 && _A22 && A21 && XRDY) ||
+			 (AS && _A23 && A22 && XRDY) ||
+			 (AS && A23 && _A22 && _A21 && XRDY) ||
+			 (ROME && XRDY && C3) ||
+			 (RE && C3) || (RGAE && C3) ||
+			 (DTACK && AS && XRDY);
 	     
 //RGAE          = /DBR*AS*/DTACK*A23*A22*/A21*C1*/C3*/OVR+
 //                RGAE*C1+RGAE*C3
-assign RGAE = (_DBR && AS && _DTACK && A23 && A22 && _A21 && C1 && _C3 && _OVR) ||
+initial RGAE = 1'b0;
+always @(*)
+	#10 RGAE  <= (_DBR && AS && _DTACK && A23 && A22 && _A21 && C1 && _C3 && _OVR) ||
 	      (RGAE && C1) || (RGAE && C3);
 
 //DAE           = DBR*C1*/C3+
 //                DAE*C1+DAE*C3
-assign DAE = (DBR && C1 && _C3) ||
+initial DAE = 1'b0;
+always @(*)
+	#10 DAE  <= (DBR && C1 && _C3) ||
 	     (DAE && C1) || (DAE && C3);
 
 //BLS           = AS*/DTACK*/A23*/A22*/A21*/OVL*C1*/C3*/OVR+
 //                AS*/DTACK*A23*A22*/A21*C1*/C3*/OVR+
 //                BLS*C1+BLS*C3
-assign BLS = (AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
+initial BLS = 1'b0;
+always @(*)
+	#10 BLS  <= (AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
 	     (AS && _DTACK && A23 && A22 && _A21 && C1 && _C3 && _OVR) ||
 	     (BLS && C1) || (BLS && C3);
 

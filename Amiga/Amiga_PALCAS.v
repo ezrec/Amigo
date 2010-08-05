@@ -43,23 +43,25 @@ module Amiga_PALCAS (
 	output _PALOPE
 );
 
+assign _PALOPE = 1'b1;
+
 wire ROME;
-wire ROM01;
-wire CDR;
-wire CDW;
+reg  ROM01;
+reg  CDR;
+reg  CDW;
 wire RE;
 wire RGAE;
 wire UDS;
 wire LDS;
 wire C1;
-wire RRW;
+reg  RRW;
 wire PRW;
 wire ARW;
 wire DAE;
 wire _A20;
 wire _A19;
-wire _UCEN;
-wire _LCEN;
+reg  _UCEN;
+reg  _LCEN;
 
 assign RE = !_RE;
 assign ROME = !_ROME;
@@ -72,7 +74,6 @@ assign ARW = !_ARW;
 assign DAE = !_DAE;
 assign _A20 = !A20;
 assign _A19 = !A19;
-
 assign _ROM01 = !ROM01;
 assign _CDR = !CDR;
 assign _CDW = !CDW;
@@ -81,34 +82,46 @@ assign UCEN = !_UCEN;
 assign LCEN = !_LCEN;
 
 // ROM01 = ROME*A20*A19*/PRW+ROME*/A20*/A19*/PRW
-assign ROM01 = (ROME && A20 && A19 && _PRW) ||
+initial ROM01 = 1'b0;
+always @(*)
+	ROM01  <= (ROME && A20 && A19 && _PRW) ||
 	       (ROME && _A20 && _A19 && _PRW);
 
 // CDR   = RE*/PWR*/C1+RGAE*/PRW*/C1+CDR*LDS+CDR*UDS
-assign CDR = (RE && _PRW && _C1) ||
+initial CDR = 1'b0;
+always @(*)
+	CDR  <= (RE && _PRW && _C1) ||
 	     (RGAE && _PRW && _C1) ||
 	     (CDR && LDS) ||
 	     (CDR && UDS);
 
 // CDW   = RE*PRW+RGAE*PRW+CDW*/C1+/DAE*/UDS*/UCEN
-assign CDW = (RE && PRW) ||
+initial CDW = 1'b0;
+always @(*)
+	CDW  <= (RE && PRW) ||
              (RGAE && PRW) ||
              (CDW && _C1) ||
              (_DAE && _UDS && _UCEN);
 
 // /UCEN = /DAE*/RE*/UCEN+/DAE*/RE*C1+/DAE*/UDS*C1+/DAE*/UDS*/UCEN
-assign _UCEN = (_DAE && _RE && _UCEN) ||
+initial _UCEN = 1'b1;
+always @(*)
+	_UCEN  <= (_DAE && _RE && _UCEN) ||
 	       (_DAE && _RE && C1) ||
 	       (_DAE && _UDS && C1) ||
 	       (_DAE && _UDS && _UCEN);
 // /LCEN = /DAE*/RE*/LCEN+/DAE*/RE*C1+/DAE*/LDS*C1+/DAE*/LDS*/LCEN
-assign _LCEN = (_DAE && _RE && _LCEN) ||
+initial _LCEN = 1'b1;
+always @(*)
+	_LCEN  <= (_DAE && _RE && _LCEN) ||
 	       (_DAE && _RE && C1) ||
 	       (_DAE && _LDS && C1) ||
 	       (_DAE && _LDS && _LCEN);
 
 // RRW   = RE*PRW+DAE*ARW*C1+RRW*DAE
-assign RRW = (RE && PRW) ||
+initial RRW = 1'b0;
+always @(*)
+	RRW  <= (RE && PRW) ||
 	     (DAE && ARW && C1) ||
 	     (RRW && DAE);
 
