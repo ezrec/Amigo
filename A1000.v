@@ -207,18 +207,21 @@ wire _DBR, _BLS;
 wire OVL;
 wire XRDY;
 
-Amiga_PALCAS U6P (
+wire _PALOPE;
+wire PAL_ROME;
+
+Amiga_PALCAS U5M (
 	._ARW(_ARW),	/* Angus RW */
 	.A20(A[20]),
 	.A19(A[19]),
 	._PRW(_PRW),	/* Paula RW */
 	._UDS(_UDS),
 	._LDS(_LDS),
-	._ROME(_ROME),
+	._ROME(PAL_ROME),
 	._RE(_RE),
 	._RGAE(_RGAE),
 	._DAE(_DAE),
-	._ROM01(/* NC */),	/* NC, due to daughterboard */
+	._ROM01(/* _ROM01 */),	/* NC, due to daughterboard */
 	._C1(_C1),
 	._RRW(_RRW),	/* RAM Expansion RW */
 	.LCEN(LCEN),
@@ -231,7 +234,7 @@ Amiga_PALCAS U6P (
 	.VCC(VCC_5V)
 );
 
-Amiga_PALEN U4T (
+Amiga_PALEN U5L (
 	.A23(A[23]),
 	.A22(A[22]),
 	.A21(A[21]),
@@ -243,7 +246,7 @@ Amiga_PALEN U4T (
 	._C3(_C3),
 	._C1(_C1),
 	._VPA(_VPA),
-	._ROME(_ROME),
+	._ROME(PAL_ROME),
 	._DAE(_DAE),
 	._RGAE(_RGAE),
 	._RE(_RE),
