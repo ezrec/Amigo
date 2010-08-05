@@ -9,7 +9,10 @@ reg reset;
 bufif1(_RST, 1'b0, reset);
 
 wire _C1;
-reg _OVR;
+wire _OVR;
+reg override;
+
+bufif1(_OVR, 1'b0, override);
 
 A1000 A1000 (
 	.VCC_5V(1'b1),
@@ -27,7 +30,7 @@ initial begin
 	$dumpvars(100, testbench);
 	ticks = 0;
 	reset = 1'b1;
-	_OVR = 1'b1;
+	override = 1'b0;
 	#100 reset = 1'b0;
 end
 
