@@ -128,8 +128,8 @@ assign R_W = !WE_I;
 assign _AS = !as;
 assign _FC = !fc_i;
 assign ipl_o = !_IPL;
-assign _LDS = lds;
-assign _UDS = uds;
+assign _LDS = !lds;
+assign _UDS = !uds;
 assign DAT_O = Di_hold;
 assign ACK_O = ack;
 
