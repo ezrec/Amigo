@@ -20,26 +20,26 @@
  */
 
 module Amiga_DAUGEN (
-	input	A23,
-	input	A22,
-	input	A21,
-	input	_AS,
-	input	_DBR,
-	input	OVL,
-	input	_OVR,
-	input	XRDY,
-	input	_C3,
-	input	GND,
-	input	_C1,
-	output	_ONT,
-	output	_RE,
-	output	_DAE,
-	output	_NC1,
-	input	A19,
-	input	_DTACK,
-	input	A20,
-	output	_ROME,
-	input	VCC
+	input	A23,	// Pin 1
+	input	A22,	// Pin 2
+	input	A21,	// Pin 3
+	input	_AS,	// Pin 4
+	input	_DBR,	// Pin 5
+	input	OVL,	// Pin 6
+	input	_OVR,	// Pin 7
+	input	XRDY,	// Pin 8
+	input	_C3,	// Pin 9
+	input	GND,	// Pin 10
+	input	_C1,	// Pin 11
+	output	_CNT,	// Pin 12
+	output	_RE,	// Pin 13
+	output	_DAE,	// Pin 14
+	output	_NC1,	// Pin 15
+	input	A19,	// Pin 16
+	input	_DTACK,	// Pin 17
+	input	A20,	// Pin 18
+	output	_ROME,	// Pin 19
+	input	VCC	// Pin 20
 );
 
 wire _A23;
@@ -51,8 +51,9 @@ wire AS;
 wire C1;
 wire C3;
 
-wire RE;
-wire ROME;
+reg RE;
+reg ROME;
+reg _DAE;
 wire DAE;
 
 assign _A23 = A23;
@@ -65,16 +66,21 @@ assign C3 = _C3;
 assign C1 = _C1;
 
 assign _RE = RE;
-assign _ROME = ROME;
+assign _ROME = !ROME;
 assign DAE = _DAE;
+reg _CNT;
 
-// /ONT  = DAE*C1*C3
-assign _ONT = DAE && C1 && C3;
+// /CNT  = DAE*C1*C3
+initial _CNT = 1'b1;
+always @(*)
+	_CNT <= DAE && C1 && C3;
 
 // RE    = AS*/DTACK*A23*A22*A21*A20*A19*/OVR*C1*/C3+
 //         AS*/DTACK*/A23*/A22*/A21*/A20*/A19*/OVR*OVL*C1*/C3+
 //         RE*C1+RE*C3
-assign RE = (AS && _DTACK && A23 && A22 && A21 && A20 && A19 && _OVR && C1 && _C3) ||
+initial RE = 1'b0;
+always @(*)
+	RE <= (AS && _DTACK && A23 && A22 && A21 && A20 && A19 && _OVR && C1 && _C3) ||
 	    (AS && _DTACK && _A23 && _A22 && _A21 && _A20 && _A19 && _OVR && C1 && _C3) ||
 	    (RE && C1) ||
 	    (RE && C3);
@@ -82,14 +88,18 @@ assign RE = (AS && _DTACK && A23 && A22 && A21 && A20 && A19 && _OVR && C1 && _C
 // /DAE  = /C1*/C3+RE+
 //        AS*/DTACK*A23*A22*A21*A20*A19*/OVR*OVL*C1*/C3+
 //        AS*/DTACK*/A23*/A22*/A21*/A20*/A19*/OVR*OVL*C1*/C3
-assign _DAE = (_C1 && _C3) ||
+initial _DAE = 1'b1;
+always @(*)
+	_DAE <= (_C1 && _C3) ||
 	      (RE) ||
 	      (AS && _DTACK && A23 && A22 && A21 && A20 && A19 && _OVR && OVL && C1 && _C3) ||
 	      (AS && _DTACK && _A23 && _A22 && _A21 && _A20 && _A19 && _OVR && OVL && C1 && _C3);
 
-//ROME  = AS*A23*A22*A21*A20*A19*/OVR+
-//        AS*/A23*/A22*/A21*/A20*/A19*/OVR*OVL
-assign ROME = (AS && A23 && A22 && A21 && A20 && A19 && _OVR) ||
-	      (AS && _A23 && _A22 && _A21 && _A20 && _A19 && _OVR && OVL);
+// ROME  = AS*A23*A22*A21*A20*A19*/OVR+
+//         AS*/A23*/A22*/A21*/A20*/A19*/OVR*OVL
+initial ROME = 1'b0;
+always @(*)
+	ROME <= (AS && A23 && A22 && A21 && A20 && A19 && _OVR) ||
+	        (AS && _A23 && _A22 && _A21 && _A20 && _A19 && _OVR && OVL);
 
 endmodule

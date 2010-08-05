@@ -31,7 +31,7 @@ module Amiga_DAUGCAS (
 	input	_ROME,
 	input	GND,
 	input	_C1,
-	input	_BERR,
+	output	_BERR,
 	output	_WPRO,
 	output	_RRW,
 	output	_LCEN,
@@ -52,14 +52,14 @@ wire RE;
 wire RES;
 wire ROME;
 wire C1;
-wire BERR;
-wire WPRO;
-wire RRW;
-wire LCEN;
-wire UCEN;
-wire CDR;
-wire CDW;
-wire ROM01;
+reg  BERR;
+reg  WPRO;
+reg  RRW;
+reg  LCEN;
+reg  UCEN;
+reg  CDR;
+reg  CDW;
+reg  ROM01;
 
 
 // Inputs
@@ -73,7 +73,7 @@ assign RE = !_RE;
 assign RES = !_RES;
 assign ROME = !_ROME;
 assign C1 = !_C1;
-assign BERR = !_BERR;
+assign _BERR = !BERR;
 // Outputs
 assign _WPRO = !WPRO;
 assign _RRW = !RRW;
@@ -83,42 +83,58 @@ assign _CDR = !CDR;
 assign _CDW = !CDW;
 assign _ROM01 = !ROM01;
 
-// ROM01 = ROME*/A17*/WPRO*/SROM*/PRW
-assign ROM01 = ROME && _A17 &&  _WPRO && _SROM && _PRW;
+	// ROM01 = ROME*/A17*/WPRO*/SROM*/PRW
+initial ROM01 = 1'b0;
+always @(*)
+	ROM01 <= ROME && _A17 &&  _WPRO && _SROM && _PRW;
 
-// CDR   = CDR*LDS+CDR*UDS+RE*/PRW*/C1*A18+RE*/PRW*/C1*/A18*WPRO+
-//        RE*/PRW*/C1/A18*SROM
-assign CDR = (CDR && LDS) ||
-	     (CDR && UDS) ||
-	     (RE && _PRW && _C1 && A18) ||
-	     (RE && _PRW && _C1 && _A18 && WPRO);
+	// CDR   = CDR*LDS+CDR*UDS+RE*/PRW*/C1*A18+RE*/PRW*/C1*/A18*WPRO+
+	//        RE*/PRW*/C1/A18*SROM
+initial CDR = 1'b0;
+always @(*)
+	CDR <= (CDR && LDS) ||
+		     (CDR && UDS) ||
+		     (RE && _PRW && _C1 && A18) ||
+		     (RE && _PRW && _C1 && _A18 && WPRO);
 
-// CDW   = RE*PRW+CDW*/C1
-assign CDW = (RE && PRW) || (CDW && _C1);
+	// CDW   = RE*PRW+CDW*/C1
+initial CDW = 1'b0;
+always @(*)
+	CDW <= (RE && PRW) || (CDW && _C1);
 
-// UCEN  = UCEN*/C1+RE*UDS*A18+RE*UDS*/A18*WPRO+
-//         RE*UDS*/A18*SROM
-assign UCEN = (UCEN && _C1) ||
-	      (RE && UDS && A18) ||
-	      (RE && UDS && _A18 && WPRO) ||
-	      (RE && UDS && _A18 && SROM);
+	// UCEN  = UCEN*/C1+RE*UDS*A18+RE*UDS*/A18*WPRO+
+	//         RE*UDS*/A18*SROM
+initial UCEN = 1'b0;
+always @(*)
+	UCEN <= (UCEN && _C1) ||
+		(RE && UDS && A18) ||
+		(RE && UDS && _A18 && WPRO) ||
+		(RE && UDS && _A18 && SROM);
 
-// LCEN  = LCEN*/C1+RE*LDS*A18+RE*LDS*/A18*WPRO+
-//         RE*LDS*/A18*SROM
-assign LCEN = (LCEN && _C1) ||
-	      (RE && LDS && A18) ||
-	      (RE && LDS && _A18 && WPRO) ||
-	      (RE && LDS && _A18 && SROM);
+	// LCEN  = LCEN*/C1+RE*LDS*A18+RE*LDS*/A18*WPRO+
+	//         RE*LDS*/A18*SROM
+initial LCEN = 1'b0;
+always @(*)
+	LCEN <= (LCEN && _C1) ||
+		(RE && LDS && A18) ||
+		(RE && LDS && _A18 && WPRO) ||
+		(RE && LDS && _A18 && SROM);
 
-// RRW   = RE*PRW*A18*/WPRO*/SROM
-assign RRW = (RE && PRW && A18 && _WPRO && _SROM);
+	// RRW   = RE*PRW*A18*/WPRO*/SROM
+initial RRW = 1'b0;
+always @(*)
+	RRW <= (RE && PRW && A18 && _WPRO && _SROM);
 
-// BERR  = WPRO*PRW*RE
-assign BERR = (WPRO && PRW && RE);
+	// BERR  = WPRO*PRW*RE
+initial BERR = 1'b0;
+always @(*)
+	BERR <= (WPRO && PRW && RE);
 
-// WPRO  = WPRO*/RES+PRW*RE*/A18
-assign WPRO = (WPRO && _RES) ||
-	      (PRW && RE && _A18);
+	// WPRO  = WPRO*/RES+PRW*RE*/A18
+initial WPRO = 1'b0;
+always @(*)
+	WPRO <= (WPRO && _RES) ||
+		      (PRW && RE && _A18);
 
 
 endmodule
