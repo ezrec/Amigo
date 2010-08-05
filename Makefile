@@ -1,3 +1,4 @@
+PATH := $(PATH):/opt/mips-4.4/bin
 
 all: ucore.bin testbench.ucore.sim
 
