@@ -73,6 +73,7 @@ IO_Clock #(.clock_rate(28636360)) OSC1 (
 
 wire C1R, _C1R, C2R, _C2R, C3R, _C3R, C4R, _C4R;
 wire C1, C2, C3, C4, CDAC, E7M, _RAS;
+wire CCK, CCKQ;
 wire _C1, _C2, _C3, _C4;
 wire _CLK_STG_1;
 wire CLK_STG_1;
@@ -137,6 +138,9 @@ assign _C3 = _C3R;
 assign C4 = C4R;
 assign _C4 = _C4R;
 
+assign CCK = C1R;
+assign CCKQ = C3R;
+
 // Synthesized clocks
 // TODO: Use 74F351 simulation
 assign E7M = C1 ^ C3;
@@ -189,6 +193,7 @@ Motorola_68000 U6U (
 
 // CIA peripherials
 MOS_8520 U6T (
+	.PA({OVL}),
 	._RES(_RST)
 );
 
@@ -291,8 +296,37 @@ Amiga_A1000_DAUG DAUG (
 	.GND(GND)
 );
 
+/************ Paula *************/
+// FIXME
+pullup (weak1) (_PRW);
 
+/************ Agnus *************/
+wire DMAL;
+wire [7:0] RGA;
+wire [7:0] DRA;
+wire _VSY;
+wire _CSY;
+wire _HSY;
+wire _LP;
 
+Amiga_8361 U4C (
+	.D(D),
+	.VCC(VCC_5V),
+	._RES(_RST),
+	._INT3(_INT3),
+	.DMAL(DMAL),
+	._BLS(_BLS),
+	._DBR(_DBR),	// DMA Bus Request
+	._ARW(_ARW),
+	.RGA(RGA),
+	.CCK(CCK),
+	.CCKQ(CCKQ),
+	.GND(GND),
+	.DRA(DRA),
+	._LP(_LP),
+	._VSY(_VSY),
+	._CSY(_CSY),
+	._HSY(_HSY)
 );
 
 endmodule
