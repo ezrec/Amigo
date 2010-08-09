@@ -1,0 +1,68 @@
+Amigo - Amiga 1000, in Verilog 2001, from schematic
+
+Copyright 2010, Jason S. McMullan
+
+The aim of the Amigo is to create a schematic-level
+capture of the digital components of the 
+Commodore Amiga 1000.
+
+My personal reason for this project is to have a
+functional Verilog simulation that can be used to:
+
+* Validate emulators
+* Convert into FPGA (a la Minimig)
+* Assist in debugging old Amiga hardware
+* Regenerate the Amiga 1000 schematic from Verilog
+
+The last point seems to be the most important for me.
+All of the Amiga 1000 schematics I have been able
+to obtain online are very blurry, almost to the point
+of unreadability. 
+
+My hope is that the 'Amigo' will be able to be used
+to generate a faithful and readable schematic one day.
+
+- Jason S. McMullan
+
+====
+
+Progress so far:
+
+* Selectable Wishbone cores for emulating the Motorola 68000
+
+  - ao68000 (from OpenCores)
+  	- True Motorola 68000 emulation, but
+  	  Icarus Verilog 0.9 appears to hate it.
+
+  - ucore (from OpenCores)
+  	- MIPS32 core, which I am using for debugging
+  	  under Icarus.
+
+  - Any other Wishbone complaint 32-bit CPU core should be
+    pluggable, via the 'Motorola_16_to_w32.v' module and
+    a small amount of glue logic for interrupts.
+
+* Amiga 1000 Daughterboard logic appears to be complete
+  - $E00000 mirror of $F80000 does not exist, could be
+    due to erroneous PAL logic. Will verify against my
+    reference hardware.
+
+Things to do:
+
+* Create wrappers for Minimig's OCS cores (Paula, Agnus, Denise),
+  to leverage the Minimig work for Amigo.
+
+* Decide upon (for REAL!) whether to make the first pass of the
+  Amigo 1000 a Rev A or a Rev C machine.
+  - This affects mostly the part numbering (ie U6U or U6S for the
+    M68000, etc).
+  - It is most likely I will be doing a Rev A, as that appears to
+    be what I have as my reference hardware.
+
+* Finish out the Amigo capture, including pullup resistors, ferrite
+  beads, etc.
+
+* Decide what to do about the analog components (ie RGB to NTSC
+  conversion circuity). Icarus Verlog doesn't (as of 0.9.x)
+  support Verilog-AMS, so I may have to put that off.
+
