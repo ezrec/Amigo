@@ -1,6 +1,0 @@
-[submodule "ao68000"]
-	path = ao68000
-	url = ../ao68000.git
-[submodule "ucore"]
-	path = ucore
-	url = /home/jmcmullan/private/Amiga/ucore.git
