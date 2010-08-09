@@ -122,7 +122,7 @@ TTL_74F02 U1S (
 // Daughterboard address selects
 TTL_74F257 U3R (
 	.I1c(A16_A17_SEL),
-	.I1d(A[19]),
+	.I1d(A[14]),
 	.I1a(A[11]),
 	.I1b(A[9]),
 	.I0c(A[8]),
