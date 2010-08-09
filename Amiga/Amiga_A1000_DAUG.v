@@ -45,6 +45,8 @@ module Amiga_A1000_DAUG (
 	input	GND
 );
 
+wire _CDW;
+wire _CDR;
 wire DAUG_RE;
 wire DAUG_UCEN;
 wire DAUG_LCEN;
@@ -74,6 +76,8 @@ Amiga_DAUGCAS U6N (
 	._LCEN(DAUG_LCEN),
 	._RRW(DAUG_RRW),
 	._RE(DAUG_RE),
+	._CDR(_CDR),
+	._CDW(_CDW),
 	._ROM01(_ROM01),
 	._ROME(_ROME),
 	._WPRO(DAUG_LED_WPRO),
@@ -158,25 +162,25 @@ TTL_74LS373 U4J (
 	.O(D[15:8]),
 	.I(DAUG_D[15:8]),
 	.LE(C4),
-	._OE(DAUG_RRW)
+	._OE(_CDR)
 );
 
 TTL_74LS373 U3J (
 	.O(D[7:0]),
 	.I(DAUG_D[7:0]),
 	.LE(C4),
-	._OE(DAUG_RRW),
+	._OE(_CDR),
 
 	.VCC(VCC),
 	.GND(GND)
 );
 
 TTL_74LS244 U4K (
-	._G1(DAUG_RE),
+	._G1(_CDW),
 	.A1({D[14],D[13],D[11],D[9]}),
 	.Y1({DAUG_D[14],DAUG_D[13],DAUG_D[11],DAUG_D[9]}),
 
-	._G2(DAUG_RE),
+	._G2(_CDW),
 	.A2({D[15],D[12],D[10],D[8]}),
 	.Y2({DAUG_D[15],DAUG_D[12],DAUG_D[10],DAUG_D[8]}),
 
