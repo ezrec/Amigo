@@ -56,18 +56,18 @@ reg ROME;
 reg _DAE;
 wire DAE;
 
-assign _A23 = A23;
-assign _A22 = A22;
-assign _A21 = A21;
-assign _A20 = A20;
-assign _A19 = A19;
-assign AS = _AS;
-assign C3 = _C3;
-assign C1 = _C1;
+assign _A23 = !A23;
+assign _A22 = !A22;
+assign _A21 = !A21;
+assign _A20 = !A20;
+assign _A19 = !A19;
+assign AS = !_AS;
+assign C3 = !_C3;
+assign C1 = !_C1;
 
-assign _RE = RE;
+assign _RE = !RE;
 assign _ROME = !ROME;
-assign DAE = _DAE;
+assign DAE = !_DAE;
 reg _CNT;
 
 // /CNT  = DAE*C1*C3
