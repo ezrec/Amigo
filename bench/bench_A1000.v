@@ -1,7 +1,8 @@
 `timescale 1ns/1ps
 `default_nettype none
 
-module testbench;
+module bench_A1000(
+);
 
 wire _RST;
 reg reset;
@@ -26,8 +27,8 @@ A1000 A1000 (
 integer ticks;
 
 initial begin
-	$dumpfile("testbench.vcd");
-	$dumpvars(100, testbench);
+	$dumpfile("bench_A1000.vcd");
+	$dumpvars(100, bench_A1000);
 	ticks = 0;
 	reset = 1'b1;
 	override = 1'b0;

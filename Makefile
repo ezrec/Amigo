@@ -1,10 +1,10 @@
 PATH := $(PATH):/opt/mips-4.4/bin
 
-all: ucore.bin testbench.ucore.sim
+all: ucore.bin A1000.ucore.sim
 
 .PRECIOUS: %.elf
 
-testbench.ao68000.sim: testbench.v A1000.v
+%.ao68000.sim: bench/bench_%.v
 	iverilog -o $@ \
 		-y TTL -y IO -y Amiga -y MOS -y Motorola \
 		-y ao68000/rtl/verilog/ao68000 \
@@ -12,7 +12,7 @@ testbench.ao68000.sim: testbench.v A1000.v
 		-DM68K_IS_AO68000 \
 		-y RAM $^
 
-testbench.ucore.sim: testbench.v A1000.v
+%.ucore.sim: bench/bench_%.v
 	iverilog -o $@ \
 		-y TTL -y IO -y Amiga -y MOS -y Motorola \
 		-y ucore -I ucore \
@@ -27,4 +27,4 @@ testbench.ucore.sim: testbench.v A1000.v
 
 
 clean:
-	$(RM) testbench.*.sim
+	$(RM) *.sim *.vcd

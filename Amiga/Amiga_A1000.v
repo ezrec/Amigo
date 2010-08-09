@@ -22,7 +22,7 @@
 /* Amiga 1000, based off of the schematics
  */
 
-module A1000 (
+module Amiga_A1000 (
 	// Power
 	input	VCC_5V,
 	input	GND,
@@ -160,7 +160,7 @@ pullup (weak1) (_HLT);
 wire _INT3;
 wire [2:0] _IPL;
 wire [2:0] _FC;
-wire R_W;
+wire _PRW;
 
 pullup (weak1) (_IPL[0]);
 pullup (weak1) (_IPL[1]);
@@ -178,7 +178,7 @@ Motorola_68000 U6U (
 	.A(A),
 	._AS(_AS),
 	.D(D),
-	.R_W(R_W),
+	.R_W(_PRW),
 	._UDS(_UDS),
 	._LDS(_LDS),
 	._DTACK(_DTACK),
@@ -203,7 +203,7 @@ MOS_8520 U6S (
 
 /***************** PALCAS/PALEN ***************************/
 
-wire _ARW, _PRW, _RRW;
+wire _ARW, _RRW;
 wire _CDR, _CDW;
 wire _ROME, _ROM01, _RE;
 wire _RGAE, _DAE;
@@ -222,7 +222,7 @@ Amiga_PALCAS U5M (
 	._ARW(_ARW),	/* Angus RW */
 	.A20(A[20]),
 	.A19(A[19]),
-	._PRW(_PRW),	/* Paula RW */
+	._PRW(_PRW),	/* Processor RW */
 	._UDS(_UDS),
 	._LDS(_LDS),
 	._ROME(PAL_ROME),
@@ -281,7 +281,7 @@ Amiga_A1000_DAUG DAUG (
 	.D(D),
 	._UDS(_UDS),
 	._LDS(_LDS),
-	._PRW(_PRW),
+	._PRW(_PRW),	/* Processor RW */
 	._DTACK(_DTACK),
 	._AS(_AS),
 	._DBR(_DBR),
@@ -300,8 +300,6 @@ Amiga_A1000_DAUG DAUG (
 );
 
 /************ Paula *************/
-// FIXME
-pullup (weak1) (_PRW);
 
 /************ Agnus *************/
 wire DMAL;
