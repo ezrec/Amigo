@@ -248,153 +248,185 @@ TTL_74F139 U1R (
 
 RAM_41464 U2J (
 	._CAS(UxJ_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	    DAUG_A[4],
+	    DAUG_A[7],
+	    DAUG_A[6],
+	    DAUG_A[5],
+	    DAUG_A[3],
+	    DAUG_A[2],
+	    DAUG_A[1],
+	    DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[0]),
-	.DQ1(DAUG_D[1]),
-	.DQ3(DAUG_D[2]),
-	.DQ4(DAUG_D[3]),
+	.DQ({
+	     DAUG_D[0],
+	     DAUG_D[1],
+	     DAUG_D[2],
+	     DAUG_D[3]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U2K (
 	._CAS(UxK_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	    DAUG_A[4],
+	    DAUG_A[7],
+	    DAUG_A[6],
+	    DAUG_A[5],
+	    DAUG_A[3],
+	    DAUG_A[2],
+	    DAUG_A[1],
+	    DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[0]),
-	.DQ1(DAUG_D[1]),
-	.DQ3(DAUG_D[2]),
-	.DQ4(DAUG_D[3]),
+	.DQ({
+	     DAUG_D[0],
+	     DAUG_D[1],
+	     DAUG_D[2],
+	     DAUG_D[3]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U1J (
 	._CAS(UxJ_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[4]),
-	.DQ1(DAUG_D[5]),
-	.DQ3(DAUG_D[6]),
-	.DQ4(DAUG_D[7]),
+	.DQ({
+	     DAUG_D[7],
+	     DAUG_D[6],
+	     DAUG_D[4],
+	     DAUG_D[5]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U1K (
 	._CAS(UxK_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[4]),
-	.DQ1(DAUG_D[5]),
-	.DQ3(DAUG_D[6]),
-	.DQ4(DAUG_D[7]),
+	.DQ({
+	     DAUG_D[7],
+	     DAUG_D[6],
+	     DAUG_D[4],
+	     DAUG_D[5]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U2L (
 	._CAS(UxL_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[8]),
-	.DQ1(DAUG_D[9]),
-	.DQ3(DAUG_D[10]),
-	.DQ4(DAUG_D[11]),
+	.DQ({
+	     DAUG_D[11],
+	     DAUG_D[10],
+	     DAUG_D[8],
+	     DAUG_D[9]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U2M (
 	._CAS(UxM_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[8]),
-	.DQ1(DAUG_D[9]),
-	.DQ3(DAUG_D[10]),
-	.DQ4(DAUG_D[11]),
+	.DQ({
+	     DAUG_D[11],
+	     DAUG_D[10],
+	     DAUG_D[8],
+	     DAUG_D[9]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U1L (
 	._CAS(UxL_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[12]),
-	.DQ1(DAUG_D[13]),
-	.DQ3(DAUG_D[14]),
-	.DQ4(DAUG_D[15]),
+	.DQ({
+	     DAUG_D[15],
+	     DAUG_D[14],
+	     DAUG_D[12],
+	     DAUG_D[13]
+	}),
 	._OE(1'b0)
 );
 
 RAM_41464 U1M (
 	._CAS(UxM_CAS),
-	.A6(DAUG_A[7]),
-	.A5(DAUG_A[6]),
-	.A4(DAUG_A[5]),
-	.A7(DAUG_A[4]),
-	.A3(DAUG_A[3]),
-	.A2(DAUG_A[2]),
-	.A1(DAUG_A[1]),
-	.A0(DAUG_A[0]),
-	._W(DAUG_RRW),
+	.A({
+	     DAUG_A[4],
+	     DAUG_A[7],
+	     DAUG_A[6],
+	     DAUG_A[5],
+	     DAUG_A[3],
+	     DAUG_A[2],
+	     DAUG_A[1],
+	     DAUG_A[0]
+	}),
+	._WE(DAUG_RRW),
 	._RAS(_RAS),
-	.DQ2(DAUG_D[12]),
-	.DQ1(DAUG_D[13]),
-	.DQ3(DAUG_D[14]),
-	.DQ4(DAUG_D[15]),
+	.DQ({
+	     DAUG_D[15],
+	     DAUG_D[14],
+	     DAUG_D[12],
+	     DAUG_D[13]
+	}),
 	._OE(1'b0)
 );
 

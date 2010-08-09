@@ -19,27 +19,62 @@
  *
  */
 
+`timescale 1ns/1ps
+
+/* 64K NEC 41464 DRAM
+ */
+
 module RAM_41464 (
-	input	_OE,
-	inout	DQ1,
-	inout	DQ2,
-	input	_W,
-	input	_RAS,
-	input	A6,
-	input	A5,
-	input	A4,
-	input	VCC,
-	input	A7,
-	input	A3,
-	input	A2,
-	input	A1,
-	input	A0,
-	inout	DQ3,
-	input	_CAS,
-	inout	DQ4,
-	input	GND
+	input	_OE,		// Pin 1
+	inout	[3:0] DQ,	// Pin 17,15,3,2
+	input	_WE,		// Pin 3
+	input	_RAS,		// Pin 5
+	input	[7:0] A,	// Pin 10,6,7,8,11,12,13,14
+	input	VCC,		// Pin 9
+	input	_CAS,		// Pin 16
+	input	GND		// Pin 18
 );
 
-// TODO: Implement this!
+reg [7:0] row;
+reg [7:0] col;
+reg [3:0] ram [0:65536];
+reg [3:0] DQ_o;
+
+integer c;
+
+initial begin
+	for (c = 0; c < 65536; c = c + 1)
+		ram[c] = 4'b1001;
+end
+
+// If _CAS == 1, then DQ must be high impedenace
+genvar i;
+generate
+	for (i = 0; i < 4; i = i + 1) begin: DQ_OE
+		bufif1(DQ[i], DQ_o[i], _WE && !_OE && !_CAS);
+	end
+endgenerate
+
+always @(GND or VCC) 
+	if (VCC == 1'b1 && GND == 1'b0) begin
+	end
+
+always @(negedge _RAS)
+	row <= A;
+
+always @(negedge _CAS)
+	if (_CAS == 1'b0) begin
+		col <= A;
+		DQ_o <= ram[{row,col}];
+	end
+
+always @(negedge _CAS or negedge _WE)
+	if (_WE == 1'b0 && _CAS == 1'b0)
+		ram[{row,col}] <= DQ;
+
+always @(negedge _CAS or negedge _OE)
+	if (_CAS == 1'b0 && _CAS == 1'b0)
+		DQ_o <= ram[{row,col}];
+
 
 endmodule
