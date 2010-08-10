@@ -57,11 +57,16 @@ wire [7:0] DAUG_A;
 wire [15:0] DAUG_D;
 
 wire DAUG_LED_WPRO;
+wire DAUG_LED_WPRO_c;
 
-IO_LED LEDL (
-	._I(DAUG_LED_WPRO)
+Resistor_Limiting #(.ohms(220), .volts(5.0)) R94 (
+	.I(DAUG_LED_WPRO),
+	.O(DAUG_LED_WPRO_c)
 );
 
+LED #(.name("WPRO")) LEDL (
+	._I(DAUG_LED_WPRO_c)
+);
 
 // Daughterboard CAS
 Amiga_DAUGCAS U6N (

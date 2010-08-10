@@ -19,14 +19,17 @@
  *
  */
 
-module IO_LED (
+module LED #(
+	parameter name = "unknown"
+) (
 	input _I
 );
 
+
 always @(_I)
 	if (_I == 0)
-		$display("LED is on");
+		$display("LED %s is on", name);
 	else
-		$display("LED is off");
+		$display("LED %s is off", name);
 
 endmodule
