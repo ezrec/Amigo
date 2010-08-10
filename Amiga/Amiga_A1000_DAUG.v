@@ -241,6 +241,10 @@ wire UxJ_CAS;
 wire UxK_CAS;
 wire UxL_CAS;
 wire UxM_CAS;
+wire UxJ_CAS_d;
+wire UxK_CAS_d;
+wire UxL_CAS_d;
+wire UxM_CAS_d;
 
 TTL_74F139 U1R (
 	.A1b(A[17]),
@@ -255,8 +259,19 @@ TTL_74F139 U1R (
 	._O1a(UxJ_CAS)
 );
 
+Resistor_Damping #(.ohms(39)) R122 (.I(UxJ_CAS),.O(UxJ_CAS_d));
+Resistor_Damping #(.ohms(39)) R121 (.I(UxK_CAS),.O(UxK_CAS_d));
+Resistor_Damping #(.ohms(39)) R120 (.I(UxL_CAS),.O(UxL_CAS_d));
+Resistor_Damping #(.ohms(39)) R119 (.I(UxM_CAS),.O(UxM_CAS_d));
+
+wire DAUG_RRW_d;
+wire _RAS_d;
+ 
+Resistor_Damping #(.ohms(39)) R123 (.I(DAUG_RRW),.O(DAUG_RRW_d));
+Resistor_Damping #(.ohms(39)) R124 (.I(_RAS),.O(_RAS_d));
+
 RAM_41464 U2J (
-	._CAS(UxJ_CAS),
+	._CAS(UxJ_CAS_d),
 	.A({
 	    DAUG_A[4],
 	    DAUG_A[7],
@@ -267,8 +282,8 @@ RAM_41464 U2J (
 	    DAUG_A[1],
 	    DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[0],
 	     DAUG_D[1],
@@ -279,7 +294,7 @@ RAM_41464 U2J (
 );
 
 RAM_41464 U2K (
-	._CAS(UxK_CAS),
+	._CAS(UxK_CAS_d),
 	.A({
 	    DAUG_A[4],
 	    DAUG_A[7],
@@ -290,8 +305,8 @@ RAM_41464 U2K (
 	    DAUG_A[1],
 	    DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[0],
 	     DAUG_D[1],
@@ -302,7 +317,7 @@ RAM_41464 U2K (
 );
 
 RAM_41464 U1J (
-	._CAS(UxJ_CAS),
+	._CAS(UxJ_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -313,8 +328,8 @@ RAM_41464 U1J (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[7],
 	     DAUG_D[6],
@@ -325,7 +340,7 @@ RAM_41464 U1J (
 );
 
 RAM_41464 U1K (
-	._CAS(UxK_CAS),
+	._CAS(UxK_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -336,8 +351,8 @@ RAM_41464 U1K (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[7],
 	     DAUG_D[6],
@@ -348,7 +363,7 @@ RAM_41464 U1K (
 );
 
 RAM_41464 U2L (
-	._CAS(UxL_CAS),
+	._CAS(UxL_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -359,8 +374,8 @@ RAM_41464 U2L (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[11],
 	     DAUG_D[10],
@@ -371,7 +386,7 @@ RAM_41464 U2L (
 );
 
 RAM_41464 U2M (
-	._CAS(UxM_CAS),
+	._CAS(UxM_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -382,8 +397,8 @@ RAM_41464 U2M (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[11],
 	     DAUG_D[10],
@@ -394,7 +409,7 @@ RAM_41464 U2M (
 );
 
 RAM_41464 U1L (
-	._CAS(UxL_CAS),
+	._CAS(UxL_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -405,8 +420,8 @@ RAM_41464 U1L (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[15],
 	     DAUG_D[14],
@@ -417,7 +432,7 @@ RAM_41464 U1L (
 );
 
 RAM_41464 U1M (
-	._CAS(UxM_CAS),
+	._CAS(UxM_CAS_d),
 	.A({
 	     DAUG_A[4],
 	     DAUG_A[7],
@@ -428,8 +443,8 @@ RAM_41464 U1M (
 	     DAUG_A[1],
 	     DAUG_A[0]
 	}),
-	._WE(DAUG_RRW),
-	._RAS(_RAS),
+	._WE(DAUG_RRW_d),
+	._RAS(_RAS_d),
 	.DQ({
 	     DAUG_D[15],
 	     DAUG_D[14],
