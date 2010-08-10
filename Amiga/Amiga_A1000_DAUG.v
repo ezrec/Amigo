@@ -20,8 +20,8 @@
  */
 
 module Amiga_A1000_DAUG (
-	input	J1,
-	input	J2,
+	input	J1_ENABLE,
+	input	J2_ENABLE,
 	input	[23:1] A,
 	inout	[15:0] D,
 	input	_LDS,
@@ -68,9 +68,37 @@ LED #(.name("WPRO")) LEDL (
 	._I(DAUG_LED_WPRO_c)
 );
 
+wire J1_SEL;
+
+Resistor_Pullup #(.ohms(1000), .volts(5.0)) R93 (
+	.VCC(VCC),
+	.O(J1_SEL)
+);
+
+Jumper_Ground J1 (
+	.GND(GND),
+	.O(J1_SEL),
+	.ENABLE(J1_ENABLE)
+);
+
+wire J2_SEL;
+
+Resistor_Pullup #(.ohms(1000), .volts(5.0)) R118 (
+	.VCC(VCC),
+	.O(J2_SEL)
+);
+
+Jumper_Ground J2 (
+	.GND(GND),
+	.O(J2_SEL),
+	.ENABLE(J2_ENABLE)
+);
+
+
+
 // Daughterboard CAS
 Amiga_DAUGCAS U6N (
-	._SROM(J1),
+	._SROM(J1_SEL),
 	._C1(_C1),
 	.A17(A[17]),
 	.A18(A[18]),
@@ -116,7 +144,7 @@ wire A17_SEL;
 wire _A16_A17_SEL;
 wire A16_A17_SEL;
 TTL_74F02 U1S (
-	.A1(J2),
+	.A1(J2_SEL),
 	.B1(A[17]),
 	.Q1(A17_SEL),
 	.A3(A[16]),

@@ -267,15 +267,9 @@ Amiga_PALEN U4T (
 
 /***************** A1000 WOM Daughterboard ****************/
 
-wire J1;
-wire J2;
-
-pullup (strong1) (J1);
-pullup (strong1) (J2);
-
 Amiga_A1000_DAUG DAUG (
-	.J1(J1),
-	.J2(J2),
+	.J1_ENABLE(1'b0),
+	.J2_ENABLE(1'b0),
 	.A(A),
 	.D(D),
 	._UDS(_UDS),

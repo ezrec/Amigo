@@ -141,8 +141,8 @@ generate
 endgenerate
 
 Amiga_A1000_DAUG A1000_DAUG (
-	.J1(J1),
-	.J2(J2),
+	.J1_ENABLE(J1),
+	.J2_ENABLE(J2),
 	.A(A[23:1]),
 	.D(D),
 	._LDS(_LDS),
