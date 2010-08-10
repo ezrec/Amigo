@@ -213,19 +213,18 @@ wire OVL;
 wire XRDY;
 
 wire _PALOPE;
-wire PAL_ROME;
 
 pullup (weak1) (XRDY);
 pullup (weak1) (_OVR);
 
-Amiga_PALCAS U5M (
+Amiga_PALCAS U6P (
 	._ARW(_ARW),	/* Angus RW */
 	.A20(A[20]),
 	.A19(A[19]),
 	._PRW(_PRW),	/* Processor RW */
 	._UDS(_UDS),
 	._LDS(_LDS),
-	._ROME(PAL_ROME),
+	._ROME(_ROME),
 	._RE(_RE),
 	._RGAE(_RGAE),
 	._DAE(_DAE),
@@ -242,7 +241,7 @@ Amiga_PALCAS U5M (
 	.VCC(VCC_5V)
 );
 
-Amiga_PALEN U5L (
+Amiga_PALEN U4T (
 	.A23(A[23]),
 	.A22(A[22]),
 	.A21(A[21]),
@@ -254,7 +253,7 @@ Amiga_PALEN U5L (
 	._C3(_C3),
 	._C1(_C1),
 	._VPA(_VPA),
-	._ROME(PAL_ROME),
+	._ROME(/* _ROME */),	// No connect on Rev A
 	._DAE(_DAE),
 	._RGAE(_RGAE),
 	._RE(_RE),
