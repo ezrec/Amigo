@@ -8,7 +8,7 @@ FUNCTION	: 16x36x36 Block RAM with synchronous write capability
 
 `timescale  1 ps / 1 ps
 
-module RAMB16_S36_S36 (DOA, DOB, DOPA, DOPB, ADDRA, ADDRB, CLKA, CLKB, DIA, DIB, DIPA, DIPB, ENA, ENB, SSRA, SSRB, WEA, WEB);
+module RAMB16_S36_S36 (DOA, DOB, DOPA, DOPB, ADDRA, ADDRB, CLKA, CLKB, DIA, DIB, DIPA, DIPB, ENA, ENB, SSRA, SSRB, WEA, WEB, GSR);
 
     parameter INIT_A = 36'h0;
     parameter INIT_B = 36'h0;
@@ -114,7 +114,7 @@ module RAMB16_S36_S36 (DOA, DOB, DOPA, DOPB, ADDRA, ADDRB, CLKA, CLKB, DIA, DIB,
     input [8:0] ADDRB;
     input [31:0] DIB;
     input [3:0] DIPB;
-    input ENB, CLKB, WEB, SSRB;
+    input ENB, CLKB, WEB, SSRB, GSR;
 
     reg [18431:0] mem;
     reg [8:0] count;
@@ -159,8 +159,6 @@ module RAMB16_S36_S36 (DOA, DOB, DOPA, DOPB, ADDRA, ADDRB, CLKA, CLKB, DIA, DIB,
     wire [15:0] parity_addra_reg;
     wire [15:0] parity_addrb_int;
     wire [15:0] parity_addrb_reg;
-
-    tri0 GSR = !testbench._RST;
 
     always @(GSR)
 	if (GSR) begin
