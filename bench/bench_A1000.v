@@ -15,7 +15,7 @@ reg override;
 
 bufif1(_OVR, 1'b0, override);
 
-A1000 A1000 (
+Amiga_A1000 A1000 (
 	.VCC_5V(1'b1),
 	.GND(1'b0),
 
