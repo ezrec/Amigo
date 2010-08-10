@@ -67,7 +67,7 @@ module Amiga_A1000 (
 // 28.63636 Mhz clock
 wire CLK_NTSC;
 
-IO_Clock #(.clock_rate(28636360)) OSC1 (
+Clock #(.clock_rate(28636360)) OSC1 (
 	.CLK(CLK_NTSC)
 );
 

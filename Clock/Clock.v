@@ -21,7 +21,7 @@
 
 `timescale 1ns/1ps
 
-module IO_Clock (
+module Clock (
 	output CLK
 );
 
