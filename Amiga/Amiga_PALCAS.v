@@ -83,7 +83,7 @@ assign LCEN = !_LCEN;
 
 // ROM01 = ROME*A20*A19*/PRW+ROME*/A20*/A19*/PRW
 initial ROM01 = 1'b0;
-always @(*)
+always @(*)	// ROME | 0x180000 - 0x1fffff, ROME | 0x000000 - 0x07ffff
 	ROM01  <= (ROME && A20 && A19 && _PRW) ||
 	       (ROME && _A20 && _A19 && _PRW);
 

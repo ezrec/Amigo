@@ -96,16 +96,16 @@ always @(*)
 //                 ROME*C1+
 //                 ROME*C3
 initial ROME = 1'b0;
-always @(*)
+always @(*)		// 0x000000 - 0x1fffff && 0xe00000 - 0xffffff
 	#10 ROME  <= (AS && _DTACK && A23 && A22 && A21 && _OVR && C1 && _C3) ||
-	      (AS && _DTACK && _A23 && _A22 && _A21 && _OVR && C1 && _C3) ||
-	      (ROME && C1) || (ROME && C3);
+	             (AS && _DTACK && _A23 && _A22 && _A21 && _OVR && OVL && C1 && _C3) ||
+	             (ROME && C1) || (ROME && C3);
 
 
 //RE            = /DBR*AS*/DTACK*/A23*/A22*/A21*/OVL*C1*/C3*/OVR+
 //                RE*C1+RE*C3
 initial RE = 1'b0;
-always @(*)
+always @(*)		// 0x000000 - 0x1fffff
 	#10 RE  <= (_DBR && AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
 	    (RE && C1) || (RE && C3);
 
@@ -117,17 +117,17 @@ always @(*)
 initial DTACK = 1'b0;
 always @(*)
 	if (_OVR == 1)
-		#10 DTACK <= (AS && _A23 && _A22 && A21 && XRDY) ||
-			 (AS && _A23 && A22 && XRDY) ||
-			 (AS && A23 && _A22 && _A21 && XRDY) ||
-			 (ROME && XRDY && C3) ||
-			 (RE && C3) || (RGAE && C3) ||
-			 (DTACK && AS && XRDY);
+		#10 DTACK <= (AS && _A23 && _A22 && A21 && XRDY) ||	// 0x200000 - 0x3ffffff
+			     (AS && _A23 && A22 && XRDY) ||		// 0x400000 - 0x7ffffff
+			     (AS && A23 && _A22 && _A21 && XRDY) ||	// 0x800000 - 0x9ffffff
+			     (ROME && XRDY && C3) ||
+			     (RE && C3) || (RGAE && C3) ||
+			     (DTACK && AS && XRDY);
 	     
 //RGAE          = /DBR*AS*/DTACK*A23*A22*/A21*C1*/C3*/OVR+
 //                RGAE*C1+RGAE*C3
 initial RGAE = 1'b0;
-always @(*)
+always @(*)		// 0xc00000 - 0xdfffff
 	#10 RGAE  <= (_DBR && AS && _DTACK && A23 && A22 && _A21 && C1 && _C3 && _OVR) ||
 	      (RGAE && C1) || (RGAE && C3);
 
@@ -138,11 +138,12 @@ always @(*)
 	#10 DAE  <= (DBR && C1 && _C3) ||
 	     (DAE && C1) || (DAE && C3);
 
+//Blitter Slowdown
 //BLS           = AS*/DTACK*/A23*/A22*/A21*/OVL*C1*/C3*/OVR+
 //                AS*/DTACK*A23*A22*/A21*C1*/C3*/OVR+
 //                BLS*C1+BLS*C3
 initial BLS = 1'b0;
-always @(*)
+always @(*)		// 0x000000 - 0x1fffff && 0xc00000 - 0xdfffff
 	#10 BLS  <= (AS && _DTACK && _A23 && _A22 && _A21 && _OVL && C1 && _C3 && _OVR) ||
 	     (AS && _DTACK && A23 && A22 && _A21 && C1 && _C3 && _OVR) ||
 	     (BLS && C1) || (BLS && C3);
